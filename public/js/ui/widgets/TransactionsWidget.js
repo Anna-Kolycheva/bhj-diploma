@@ -11,7 +11,9 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    if (!element) throw new Error(`элемент не существует`);
+    this.element = element;
+    this.registerEvents();
   }
   /**
    * Регистрирует обработчики нажатия на
@@ -20,6 +22,16 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
+    let incomeButton = document.querySelector(`.create-income-button`);
+    let expenseButton = document.querySelector(`.create-expense-button`);
 
+    incomeButton.addEventListener('click', () => {
+            let modal = App.getModal(`newIncome`);
+            modal.open();
+    })
+    expenseButton.addEventListener('click', () => {
+            let modal = App.getModal(`newExpense`);
+            modal.open();
+    })
   }
 }

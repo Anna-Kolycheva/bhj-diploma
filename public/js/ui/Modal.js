@@ -5,49 +5,65 @@
  * закрытие имеющихся окон
  * */
 class Modal {
-  /**
-   * Устанавливает текущий элемент в свойство element
-   * Регистрирует обработчики событий с помощью Modal.registerEvents()
-   * Если переданный элемент не существует,
-   * необходимо выкинуть ошибку.
-   * */
-  constructor( element ) {
 
-  }
+    /**
+     * Устанавливает текущий элемент в свойство element
+     * Регистрирует обработчики событий с помощью Modal.registerEvents()
+     * Если переданный элемент не существует,
+     * необходимо выкинуть ошибку.
+     * */
+    constructor(element) {
+        this.element = element;
+        this.registerEvents();
+    }
 
-  /**
-   * При нажатии на элемент с data-dismiss="modal"
-   * должен закрыть текущее окно
-   * (с помощью метода Modal.onClose)
-   * */
-  registerEvents() {
+    /**
+     * При нажатии на элемент с data-dismiss="modal"
+     * должен закрыть текущее окно
+     * (с помощью метода Modal.onClose)
+     * */
+    registerEvents() {
+        this.element.addEventListener('click', (event) => {
 
-  }
+            if ((event.target.dataset !== null && event.target.dataset.dismiss === 'modal') || (event.target.closest('.close') !== null && event.target.closest('.close').dataset.dismiss === 'modal')) {
+                this.onClose(event);
+            }
+        });
+    }
 
-  /**
-   * Срабатывает после нажатия на элементы, закрывающие окно.
-   * Закрывает текущее окно (Modal.close())
-   * */
-  onClose( e ) {
+    /**
+     * Срабатывает после нажатия на элементы, закрывающие окно.
+     * Закрывает текущее окно (Modal.close())
+     * */
+    onClose(e) {
+      e.preventDefault();
+        this.close();
+        this.unregisterEvents();
+    }
 
-  }
-  /**
-   * Удаляет обработчики событий
-   * */
-  unregisterEvents() {
+    /**
+     * Удаляет обработчики событий
+     * */
+    unregisterEvents() {
+        this.element.removeEventListener('click', (event) => {
+            if ((event.target.dataset !== null && event.target.dataset.dismiss === 'modal') || (event.target.closest('.close') !== null && event.target.closest('.close').dataset.dismiss === 'modal')) {
+                this.onClose();
+            }
+        })
+    }
 
-  }
-  /**
-   * Открывает окно: устанавливает CSS-свойство display
-   * со значением «block»
-   * */
-  open() {
+    /**
+     * Открывает окно: устанавливает CSS-свойство display
+     * со значением «block»
+     * */
+    open() {
+        this.element.style.display = 'block';
+    }
 
-  }
-  /**
-   * Закрывает окно: удаляет CSS-свойство display
-   * */
-  close(){
-
-  }
+    /**
+     * Закрывает окно: удаляет CSS-свойство display
+     * */
+    close() {
+        this.element.style.display = 'none';
+    }
 }
